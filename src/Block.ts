@@ -15,10 +15,10 @@ export type MineProps =
   | (ShareProps & { previousHash: null })
   | (ShareProps & { previousHash: string });
 
-export type TimeStemps = [number, number];
+export type TimeStamps = [number, number];
 
-export function mine(props: MineProps, timeStemps?: TimeStemps): Block {
-  return { ...props, ...solve(props, timeStemps) };
+export function mine(props: MineProps, TimeStamps?: TimeStamps): Block {
+  return { ...props, ...solve(props, TimeStamps) };
 }
 
 export function hash(props: Block) {

@@ -1,6 +1,7 @@
 import { sha256 } from './utils';
 
-import { MineProps, TimeStemps } from './Block';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { MineProps, TimeStamps } from './Block';
 
 interface Nonce {
   nonce: number;
@@ -8,7 +9,7 @@ interface Nonce {
   timeStemp: number;
 }
 
-export function solve(props: MineProps, timeStemps?: TimeStemps) {
+export function solve(props: MineProps, TimeStamps?: TimeStamps) {
   let nonce = 1;
   // eslint-disable-next-line no-constant-condition
   while (true) {
@@ -18,15 +19,15 @@ export function solve(props: MineProps, timeStemps?: TimeStemps) {
   }
 
   const timeStemp = +new Date();
-  if (timeStemps === undefined)
+  if (TimeStamps === undefined)
     return {
       nonce,
       difficulty: props.difficulty,
       timeStemp,
     };
 
-  const previousMiningTime = timeStemps[1] - timeStemps[0];
-  const currentMiningTime = timeStemp - timeStemps[1];
+  const previousMiningTime = TimeStamps[1] - TimeStamps[0];
+  const currentMiningTime = timeStemp - TimeStamps[1];
 
   if (currentMiningTime === previousMiningTime) {
     return {
