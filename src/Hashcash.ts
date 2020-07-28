@@ -3,13 +3,13 @@ import { sha256 } from './utils';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MineProps, TimeStamps } from './Block';
 
-interface Nonce {
+interface Solved {
   nonce: number;
   difficulty: number;
   timeStemp: number;
 }
 
-export function solve(props: MineProps, TimeStamps?: TimeStamps) {
+export function solve(props: MineProps, TimeStamps?: TimeStamps): Solved {
   let nonce = 1;
   // eslint-disable-next-line no-constant-condition
   while (true) {
