@@ -10,13 +10,26 @@ describe('블록 연결하기', () => {
   });
   blocks.push(genesisBlock);
 
-  it('하나 넣고!', () => {
+  it('두개 넣고!', () => {
     blocks.push(
       mine({
-        index: genesisBlock.index + 1,
+        index: blocks.length,
         difficulty: genesisBlock.difficulty,
         previousHash: hash(genesisBlock),
       })
+    );
+    blocks.push(
+      mine(
+        {
+          index: blocks.length,
+          difficulty: blocks[blocks.length - 1].difficulty,
+          previousHash: hash(blocks[blocks.length - 1]),
+        },
+        [
+          blocks[blocks.length - 2].timeStemp,
+          blocks[blocks.length - 1].timeStemp,
+        ]
+      )
     );
   });
 });

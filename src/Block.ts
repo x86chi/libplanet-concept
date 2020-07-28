@@ -8,16 +8,17 @@ interface ShareProps {
 
 export interface Block extends ShareProps {
   nonce: number;
-  timestemp: number;
+  timeStemp: number;
 }
 
 export type MineProps =
   | (ShareProps & { previousHash: null })
   | (ShareProps & { previousHash: string });
 
-export function mine(props: MineProps): Block {
-  const solved = solve(props);
-  return { timestemp: +new Date(), ...solved, ...props };
+export type TimeStemps = [number, number];
+
+export function mine(props: MineProps, timeStemps?: TimeStemps): Block {
+  return { ...props, ...solve(props, timeStemps) };
 }
 
 export function hash(props: Block) {
