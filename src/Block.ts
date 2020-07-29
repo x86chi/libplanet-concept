@@ -24,6 +24,7 @@ export function mine(props: MineProps, TimeStamps?: TimeStamps): Block {
 }
 
 export function hash(props: Block) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return sha256(encode(props));
 }
