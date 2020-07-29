@@ -1,3 +1,5 @@
+import { encode } from 'bencodex';
+
 import { sha256, byteToBit } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -13,7 +15,7 @@ export function solve(props: MineProps, TimeStamps?: TimeStamps): Solved {
   let nonce = 1;
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const hash = sha256(JSON.stringify({ ...props, nonce })) as Buffer;
+    const hash = sha256(encode({ ...props, nonce }));
     if (isHasLeadingZero(hash, props.difficulty)) break;
     nonce += 1;
   }

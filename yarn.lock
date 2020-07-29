@@ -902,6 +902,11 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+bencodex@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/bencodex/-/bencodex-0.1.1.tgz#2b52e166d5f9abf5838503d477dd1cd41b0ea900"
+  integrity sha512-uxgLztPUeS+aPUgesLRZAk++ePk6OSBQKaqVQuV7Pz44G0v1s0sTuFpHjETVdbiQtqtuxWD9+rMCx9UBJiGhDg==
+
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"

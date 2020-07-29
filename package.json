@@ -26,5 +26,7 @@
       "^.+\\.ts?$": "ts-jest"
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "bencodex": "^0.1.1"
+  }
 }

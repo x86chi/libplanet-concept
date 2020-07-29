@@ -1,3 +1,5 @@
+import { encode } from 'bencodex';
+
 import { solve } from './Hashcash';
 import { sha256 } from './utils';
 
@@ -13,7 +15,7 @@ export interface Block extends ShareProps {
 
 export type MineProps =
   | (ShareProps & { previousHash: null })
-  | (ShareProps & { previousHash: number[] });
+  | (ShareProps & { previousHash: Buffer });
 
 export type TimeStamps = [number, number];
 
@@ -22,5 +24,6 @@ export function mine(props: MineProps, TimeStamps?: TimeStamps): Block {
 }
 
 export function hash(props: Block) {
-  return sha256(JSON.stringify(props)).toJSON().data;
+  // @ts-ignore
+  return sha256(encode(props));
 }
