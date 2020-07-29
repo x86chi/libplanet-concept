@@ -1,8 +1,7 @@
-import crypto, { HexBase64Latin1Encoding } from 'crypto';
+import crypto from 'crypto';
 
-export function sha256(data: string, encoding?: HexBase64Latin1Encoding) {
-  const hash = crypto.createHash('sha256').update(data);
-  return encoding === undefined ? hash.digest() : hash.digest(encoding);
+export function sha256(data: string) {
+  return crypto.createHash('sha256').update(data).digest();
 }
 export function byteToBit(bytes: IterableIterator<number>) {
   let result = '';

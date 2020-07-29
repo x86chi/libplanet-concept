@@ -13,7 +13,7 @@ export interface Block extends ShareProps {
 
 export type MineProps =
   | (ShareProps & { previousHash: null })
-  | (ShareProps & { previousHash: string });
+  | (ShareProps & { previousHash: number[] });
 
 export type TimeStamps = [number, number];
 
@@ -22,5 +22,5 @@ export function mine(props: MineProps, TimeStamps?: TimeStamps): Block {
 }
 
 export function hash(props: Block) {
-  return sha256(JSON.stringify(props), 'hex') as string;
+  return sha256(JSON.stringify(props)).toJSON().data;
 }
