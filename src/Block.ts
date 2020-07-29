@@ -22,5 +22,5 @@ export function mine(props: MineProps, TimeStamps?: TimeStamps): Block {
 }
 
 export function hash(props: Block) {
-  return sha256(JSON.stringify(props));
+  return sha256(JSON.stringify(props), 'hex') as string;
 }

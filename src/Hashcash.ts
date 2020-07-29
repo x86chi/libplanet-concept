@@ -1,4 +1,4 @@
-import { sha256 } from './utils';
+import { sha256, byteToBit } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MineProps, TimeStamps } from './Block';
@@ -13,7 +13,7 @@ export function solve(props: MineProps, TimeStamps?: TimeStamps): Solved {
   let nonce = 1;
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const hash = sha256(JSON.stringify({ ...props, nonce }));
+    const hash = sha256(JSON.stringify({ ...props, nonce })) as Buffer;
     if (isHasLeadingZero(hash, props.difficulty)) break;
     nonce += 1;
   }
@@ -51,6 +51,6 @@ export function solve(props: MineProps, TimeStamps?: TimeStamps): Solved {
   };
 }
 
-function isHasLeadingZero(digest: string, difficulty: number) {
-  return digest.startsWith('0'.repeat(difficulty));
+function isHasLeadingZero(digest: Buffer, difficulty: number) {
+  return byteToBit(digest.values()).startsWith('0'.repeat(difficulty));
 }
