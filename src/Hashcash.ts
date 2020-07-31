@@ -13,11 +13,14 @@ const goalMineingTime = 5000;
 
 export function solve(props: MineProps, TimeStamps?: TimeStamps): Solved {
   let nonce = 1;
-  while (!isHasLeadingZero(hash({ ...props, nonce }), props.difficulty)) {
+  let timeStemp = +new Date();
+  while (
+    !isHasLeadingZero(hash({ ...props, nonce, timeStemp }), props.difficulty)
+  ) {
+    timeStemp = +new Date();
     nonce += 1;
   }
 
-  const timeStemp = +new Date();
   if (TimeStamps === undefined)
     return {
       nonce,
