@@ -1,7 +1,7 @@
 import { byteToBit } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { MineProps, TimeStamps, hash } from './Block';
+import { Mine, TimeStamps, hash } from './Block';
 
 interface Solved {
   nonce: number;
@@ -11,7 +11,7 @@ interface Solved {
 
 const goalMineingTime = 5000;
 
-export function solve(props: MineProps, TimeStamps?: TimeStamps): Solved {
+export function solve(props: Mine, TimeStamps?: TimeStamps): Solved {
   let nonce = 1;
   let timeStemp = +new Date();
   while (

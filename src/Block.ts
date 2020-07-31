@@ -3,23 +3,20 @@ import { encode } from 'bencodex';
 import { solve } from './Hashcash';
 import { sha256 } from './utils';
 
-interface ShareProps {
+export interface Mine {
   index: number;
   difficulty: number;
+  previousHash: null | Buffer;
 }
 
-export interface Block extends ShareProps {
+export interface Block extends Mine {
   nonce: number;
   timeStemp: number;
 }
 
-export type MineProps =
-  | (ShareProps & { previousHash: null })
-  | (ShareProps & { previousHash: Buffer });
-
 export type TimeStamps = [number, number];
 
-export function mine(props: MineProps, TimeStamps?: TimeStamps): Block {
+export function mine(props: Mine, TimeStamps?: TimeStamps): Block {
   return { ...props, ...solve(props, TimeStamps) };
 }
 
