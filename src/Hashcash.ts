@@ -2,6 +2,7 @@ import { byteToBit } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Mine, TimeStamps, hash } from './Block';
+import { TransactionPayload } from './Transaction';
 
 interface Solved {
   nonce: number;
@@ -11,7 +12,11 @@ interface Solved {
 
 const goalMineingTime = 5000;
 
-export function solve(props: Mine, TimeStamps?: TimeStamps): Solved {
+interface SolveProps extends Mine {
+  payload: TransactionPayload[] | null;
+}
+
+export function solve(props: SolveProps, TimeStamps?: TimeStamps): Solved {
   let nonce = 1;
   let timeStamp = +new Date();
   while (
@@ -26,6 +31,7 @@ export function solve(props: Mine, TimeStamps?: TimeStamps): Solved {
       nonce,
       difficulty: props.difficulty,
       timeStamp,
+      payload: props.payload,
     };
 
   const miningTime = TimeStamps[1] - TimeStamps[0];
@@ -35,6 +41,7 @@ export function solve(props: Mine, TimeStamps?: TimeStamps): Solved {
       nonce,
       difficulty: props.difficulty,
       timeStamp,
+      payload: props.payload,
     };
   }
 
@@ -43,12 +50,14 @@ export function solve(props: Mine, TimeStamps?: TimeStamps): Solved {
       nonce,
       difficulty: props.difficulty + 1 <= 64 ? props.difficulty + 1 : 64,
       timeStamp,
+      payload: props.payload,
     };
 
   return {
     nonce,
     difficulty: props.difficulty - 1 < 0 ? 0 : props.difficulty - 1,
     timeStamp,
+    payload: props.payload,
   };
 }
 

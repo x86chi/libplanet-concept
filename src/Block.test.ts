@@ -1,5 +1,12 @@
 import { Block, mine, hash } from './Block';
 
+import { ec } from './Transaction';
+
+const firstKey = ec.keyPair();
+const secondKey = ec.keyPair();
+
+const SecondKeyPublic = secondKey.getPublic().encode('hex');
+
 describe('블록 연결하기', () => {
   const blocks: Block[] = [];
 
@@ -30,6 +37,10 @@ describe('블록 연결하기', () => {
         index: blocks.length,
         difficulty: blocks[blocks.length - 1].difficulty,
         previousHash: hash(blocks[blocks.length - 1]),
+        transaction: {
+          sender: { signature: firstKey.sign(blocks.length) },
+          recipient: { publicKey: SecondKeyPublic },
+        },
       },
       [blocks[blocks.length - 2].timeStamp, blocks[blocks.length - 1].timeStamp]
     );
