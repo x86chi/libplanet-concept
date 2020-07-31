@@ -3,7 +3,7 @@ import { encode } from 'bencodex';
 import { solve } from './Hashcash';
 import { sha256 } from './utils';
 
-import { Transaction, ec, TransactionPayload } from './Transaction';
+import { Transaction, Verify, TransactionPayload } from './Transaction';
 
 export interface Mine {
   index: number;
@@ -12,13 +12,12 @@ export interface Mine {
 }
 
 interface MineProps extends Mine {
-  transaction?: Transaction;
+  transaction?: Transaction & { verify: Verify };
 }
 
-export interface Block extends Mine {
+export interface Block extends Mine, TransactionPayload {
   nonce: number;
   timeStamp: number;
-  payload: TransactionPayload[] | null;
 }
 
 export type TimeStamps = [number, number];
@@ -27,15 +26,17 @@ export function mine(props: MineProps, TimeStamps?: TimeStamps): Block {
   const { transaction, ...otherProps } = props;
 
   if (transaction) {
-    const payload: TransactionPayload = {
-      signature: transaction.sender.signature,
-      publicKey: transaction.recipient.publicKey,
-    };
-    const data = { payload, ...otherProps };
+    const { verify, ...payload } = transaction;
+
+    if (!verify(props.index, transaction.signature)) {
+      throw Error('유효하지 않은 서명입니다');
+    }
+
+    const data = { payload: [payload], ...otherProps };
     return { ...data, ...solve(data, TimeStamps) };
   }
 
-  const data = { payload: null, ...otherProps };
+  const data = { payload: [], ...otherProps };
 
   return { ...data, ...solve(data, TimeStamps) };
 }

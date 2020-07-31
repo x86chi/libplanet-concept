@@ -4,7 +4,7 @@ import { byteToBit } from './utils';
 import { Mine, TimeStamps, hash } from './Block';
 import { TransactionPayload } from './Transaction';
 
-interface Solved {
+interface Solved extends TransactionPayload {
   nonce: number;
   difficulty: number;
   timeStamp: number;
@@ -12,9 +12,7 @@ interface Solved {
 
 const goalMineingTime = 5000;
 
-interface SolveProps extends Mine {
-  payload: TransactionPayload[] | null;
-}
+type SolveProps = Mine & TransactionPayload;
 
 export function solve(props: SolveProps, TimeStamps?: TimeStamps): Solved {
   let nonce = 1;

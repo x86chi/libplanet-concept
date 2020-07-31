@@ -2,10 +2,13 @@ import { Block, mine, hash } from './Block';
 
 import { ec } from './Transaction';
 
-const firstKey = ec.keyPair();
-const secondKey = ec.keyPair();
+const firstKey = ec.genKeyPair();
+const secondKey = ec.genKeyPair();
 
-const SecondKeyPublic = secondKey.getPublic().encode('hex');
+const secondKeyPublic = secondKey.getPublic().encode('hex', true);
+
+// TOOD: firstKey.verify 대신에 이전 블럭에 공개키를 넣어 그 키를 활용하기
+// const firstKeyPublic = firstKey.getPublic().encode('hex', true);
 
 describe('블록 연결하기', () => {
   const blocks: Block[] = [];
@@ -37,9 +40,28 @@ describe('블록 연결하기', () => {
         index: blocks.length,
         difficulty: blocks[blocks.length - 1].difficulty,
         previousHash: hash(blocks[blocks.length - 1]),
+      },
+      [blocks[blocks.length - 2].timeStamp, blocks[blocks.length - 1].timeStamp]
+    );
+    it('이전 블럭이 빠르게 채굴되서 난이도가 +1 증가합니다.', () => {
+      expect(block.difficulty).toBe(1);
+    });
+    it('논스 값은 1', () => {
+      expect(block.nonce).toBe(1);
+    });
+    blocks.push(block);
+  });
+  describe('블럭에 서명하기', () => {
+    const block = mine(
+      {
+        index: blocks.length,
+        difficulty: blocks[blocks.length - 1].difficulty,
+        previousHash: hash(blocks[blocks.length - 1]),
         transaction: {
-          sender: { signature: firstKey.sign(blocks.length) },
-          recipient: { publicKey: SecondKeyPublic },
+          signature: firstKey.sign(blocks.length).toDER('hex') as string,
+          publicKey: secondKeyPublic,
+          timeStamp: +new Date(),
+          verify: firstKey.verify,
         },
       },
       [blocks[blocks.length - 2].timeStamp, blocks[blocks.length - 1].timeStamp]
