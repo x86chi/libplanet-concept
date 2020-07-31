@@ -11,6 +11,8 @@ interface Solved {
   timeStemp: number;
 }
 
+const goalMineingTime = 5000;
+
 export function solve(props: MineProps, TimeStamps?: TimeStamps): Solved {
   let nonce = 1;
   // eslint-disable-next-line no-constant-condition
@@ -28,10 +30,9 @@ export function solve(props: MineProps, TimeStamps?: TimeStamps): Solved {
       timeStemp,
     };
 
-  const previousMiningTime = TimeStamps[1] - TimeStamps[0];
-  const currentMiningTime = timeStemp - TimeStamps[1];
+  const miningTime = TimeStamps[1] - TimeStamps[0];
 
-  if (currentMiningTime === previousMiningTime) {
+  if (miningTime === goalMineingTime) {
     return {
       nonce,
       difficulty: props.difficulty,
@@ -39,7 +40,7 @@ export function solve(props: MineProps, TimeStamps?: TimeStamps): Solved {
     };
   }
 
-  if (currentMiningTime < previousMiningTime)
+  if (miningTime < goalMineingTime)
     return {
       nonce,
       difficulty: props.difficulty + 1 <= 64 ? props.difficulty + 1 : 64,

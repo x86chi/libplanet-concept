@@ -34,7 +34,7 @@ describe('블록 연결하기', () => {
       [blocks[blocks.length - 2].timeStemp, blocks[blocks.length - 1].timeStemp]
     );
     it('난이도는 0이다.', () => {
-      expect(block.difficulty).toBe(0);
+      expect(block.difficulty).toBe(1);
     });
     it('논스 값은 1', () => {
       expect(block.nonce).toBe(1);
