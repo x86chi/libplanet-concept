@@ -33,7 +33,7 @@ describe('블록 연결하기', () => {
       },
       [blocks[blocks.length - 2].timeStemp, blocks[blocks.length - 1].timeStemp]
     );
-    it('난이도는 0이다.', () => {
+    it('이전 블럭이 빠르게 채굴되서 난이도가 +1 증가합니다.', () => {
       expect(block.difficulty).toBe(1);
     });
     it('논스 값은 1', () => {
