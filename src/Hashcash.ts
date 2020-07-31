@@ -6,18 +6,18 @@ import { Mine, TimeStamps, hash } from './Block';
 interface Solved {
   nonce: number;
   difficulty: number;
-  timeStemp: number;
+  timeStamp: number;
 }
 
 const goalMineingTime = 5000;
 
 export function solve(props: Mine, TimeStamps?: TimeStamps): Solved {
   let nonce = 1;
-  let timeStemp = +new Date();
+  let timeStamp = +new Date();
   while (
-    !isHasLeadingZero(hash({ ...props, nonce, timeStemp }), props.difficulty)
+    !isHasLeadingZero(hash({ ...props, nonce, timeStamp }), props.difficulty)
   ) {
-    timeStemp = +new Date();
+    timeStamp = +new Date();
     nonce += 1;
   }
 
@@ -25,7 +25,7 @@ export function solve(props: Mine, TimeStamps?: TimeStamps): Solved {
     return {
       nonce,
       difficulty: props.difficulty,
-      timeStemp,
+      timeStamp,
     };
 
   const miningTime = TimeStamps[1] - TimeStamps[0];
@@ -34,7 +34,7 @@ export function solve(props: Mine, TimeStamps?: TimeStamps): Solved {
     return {
       nonce,
       difficulty: props.difficulty,
-      timeStemp,
+      timeStamp,
     };
   }
 
@@ -42,13 +42,13 @@ export function solve(props: Mine, TimeStamps?: TimeStamps): Solved {
     return {
       nonce,
       difficulty: props.difficulty + 1 <= 64 ? props.difficulty + 1 : 64,
-      timeStemp,
+      timeStamp,
     };
 
   return {
     nonce,
     difficulty: props.difficulty - 1 < 0 ? 0 : props.difficulty - 1,
-    timeStemp,
+    timeStamp,
   };
 }
 

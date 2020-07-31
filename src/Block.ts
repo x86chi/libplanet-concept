@@ -11,7 +11,7 @@ export interface Mine {
 
 export interface Block extends Mine {
   nonce: number;
-  timeStemp: number;
+  timeStamp: number;
 }
 
 export type TimeStamps = [number, number];

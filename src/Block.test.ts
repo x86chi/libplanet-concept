@@ -31,7 +31,7 @@ describe('블록 연결하기', () => {
         difficulty: blocks[blocks.length - 1].difficulty,
         previousHash: hash(blocks[blocks.length - 1]),
       },
-      [blocks[blocks.length - 2].timeStemp, blocks[blocks.length - 1].timeStemp]
+      [blocks[blocks.length - 2].timeStamp, blocks[blocks.length - 1].timeStamp]
     );
     it('이전 블럭이 빠르게 채굴되서 난이도가 +1 증가합니다.', () => {
       expect(block.difficulty).toBe(1);
