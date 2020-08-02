@@ -28,7 +28,6 @@
     }
   },
   "dependencies": {
-    "bencodex": "^0.1.1",
-    "elliptic": "^6.5.3"
+    "bencodex": "^0.1.1"
   }
 }
