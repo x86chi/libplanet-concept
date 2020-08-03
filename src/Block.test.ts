@@ -3,8 +3,8 @@ import crypto from 'crypto';
 import { Block, mine, hash } from './Block';
 import { createSign } from './utils';
 
-const elice = crypto.generateKeyPairSync('ec', { namedCurve: 'sect239k1' });
-const bob = crypto.generateKeyPairSync('ec', { namedCurve: 'sect239k1' });
+const namedCurve = 'secp256k1';
+const elice = crypto.generateKeyPairSync('ec', { namedCurve });
 
 describe('블록 연결하기', () => {
   const blocks: Block[] = [];
