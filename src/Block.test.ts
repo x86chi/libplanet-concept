@@ -4,7 +4,7 @@ import { Block, mine, hash } from './Block';
 import { createSign } from './utils';
 
 const namedCurve = 'secp256k1';
-const elice = crypto.generateKeyPairSync('ec', { namedCurve });
+const alice = crypto.generateKeyPairSync('ec', { namedCurve });
 
 describe('블록 연결하기', () => {
   const blocks: Block[] = [];
@@ -55,10 +55,10 @@ describe('블록 연결하기', () => {
         previousHash: hash(blocks[blocks.length - 1]),
         transaction: {
           signature: createSign(
-            elice.privateKey,
+            alice.privateKey,
             new Uint8Array(blocks.length)
           ),
-          publicKey: elice.publicKey,
+          publicKey: alice.publicKey,
           timeStamp: +new Date(),
         },
       },
