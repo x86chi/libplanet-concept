@@ -29,7 +29,7 @@ export function mine(props: MineProps, TimeStamps?: TimeStamps): Block {
     if (
       !verifySign(
         transaction.signature,
-        new Uint8Array(props.index),
+        Buffer.from([transaction.timeStamp]),
         transaction.publicKey
       )
     ) {

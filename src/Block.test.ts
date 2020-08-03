@@ -48,18 +48,16 @@ describe('블록 연결하기', () => {
     blocks.push(block);
   });
   describe('블럭에 서명하기', () => {
+    const timeStamp = +new Date();
     const block = mine(
       {
         index: blocks.length,
         difficulty: blocks[blocks.length - 1].difficulty,
         previousHash: hash(blocks[blocks.length - 1]),
         transaction: {
-          signature: createSign(
-            alice.privateKey,
-            new Uint8Array(blocks.length)
-          ),
+          signature: createSign(alice.privateKey, Buffer.from([timeStamp])),
           publicKey: alice.publicKey,
-          timeStamp: +new Date(),
+          timeStamp,
         },
       },
       [blocks[blocks.length - 2].timeStamp, blocks[blocks.length - 1].timeStamp]
