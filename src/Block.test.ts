@@ -54,7 +54,10 @@ describe('블록 연결하기', () => {
         difficulty: blocks[blocks.length - 1].difficulty,
         previousHash: hash(blocks[blocks.length - 1]),
         transaction: {
-          signature: createSign(elice.privateKey, blocks.length.toString()),
+          signature: createSign(
+            elice.privateKey,
+            new Uint8Array(blocks.length)
+          ),
           publicKey: elice.publicKey,
           timeStamp: +new Date(),
         },

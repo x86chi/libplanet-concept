@@ -19,7 +19,7 @@ export function byteToBit(bytes: IterableIterator<number>) {
   return result;
 }
 
-export function createSign(privateKey: KeyObject, payload: string) {
+export function createSign(privateKey: KeyObject, payload: Uint8Array) {
   const sign = crypto.createSign(Algorithm);
   sign.update(payload);
   sign.end();
@@ -28,7 +28,7 @@ export function createSign(privateKey: KeyObject, payload: string) {
 
 export function verifySign(
   signature: Buffer,
-  payload: string,
+  payload: Uint8Array,
   publicKey: KeyObject
 ) {
   const verify = crypto.createVerify(Algorithm);
