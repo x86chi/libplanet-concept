@@ -4,9 +4,6 @@
   "main": "index.js",
   "author": "Muhun Kim",
   "license": "MIT",
-  "scripts": {
-    "start": "ts-node src/index.ts"
-  },
   "devDependencies": {
     "@types/jest": "^26.0.7",
     "@types/node": "^14.0.26",
@@ -29,5 +26,7 @@
       "^.+\\.ts?$": "ts-jest"
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "bencodex": "^0.1.1"
+  }
 }
