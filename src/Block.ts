@@ -1,9 +1,9 @@
 import { encode } from 'bencodex';
 
 import { solve } from './Hashcash';
-import { sha256 } from './utils';
+import { sha256, verifySign } from './utils';
 
-import { Transaction, Verify, TransactionPayload } from './Transaction';
+import { Transaction, TransactionPayload } from './Transaction';
 
 export interface Mine {
   index: number;
@@ -12,7 +12,7 @@ export interface Mine {
 }
 
 interface MineProps extends Mine {
-  transaction?: Transaction & { verify: Verify };
+  transaction?: Transaction;
 }
 
 export interface Block extends Mine, TransactionPayload {
@@ -26,17 +26,21 @@ export function mine(props: MineProps, TimeStamps?: TimeStamps): Block {
   const { transaction, ...otherProps } = props;
 
   if (transaction) {
-    const { verify, ...payload } = transaction;
-
-    if (!verify(props.index, transaction.signature)) {
+    if (
+      !verifySign(
+        transaction.signature,
+        props.index.toString(),
+        transaction.publicKey
+      )
+    ) {
       throw Error('유효하지 않은 서명입니다');
     }
 
-    const data = { payload: [payload], ...otherProps };
+    const data = { payload: transaction, ...otherProps };
     return { ...data, ...solve(data, TimeStamps) };
   }
 
-  const data = { payload: [], ...otherProps };
+  const data = { payload: null, ...otherProps };
 
   return { ...data, ...solve(data, TimeStamps) };
 }

@@ -1,14 +1,10 @@
+import crypto from 'crypto';
+
 import { Block, mine, hash } from './Block';
+import { createSign } from './utils';
 
-import { ec } from './Transaction';
-
-const firstKey = ec.genKeyPair();
-const secondKey = ec.genKeyPair();
-
-const secondKeyPublic = secondKey.getPublic().encode('hex', true);
-
-// TOOD: firstKey.verify 대신에 이전 블럭에 공개키를 넣어 그 키를 활용하기
-// const firstKeyPublic = firstKey.getPublic().encode('hex', true);
+const elice = crypto.generateKeyPairSync('ec', { namedCurve: 'sect239k1' });
+const bob = crypto.generateKeyPairSync('ec', { namedCurve: 'sect239k1' });
 
 describe('블록 연결하기', () => {
   const blocks: Block[] = [];
@@ -58,16 +54,15 @@ describe('블록 연결하기', () => {
         difficulty: blocks[blocks.length - 1].difficulty,
         previousHash: hash(blocks[blocks.length - 1]),
         transaction: {
-          signature: firstKey.sign(blocks.length).toDER('hex') as string,
-          publicKey: secondKeyPublic,
+          signature: createSign(elice.privateKey, blocks.length.toString()),
+          publicKey: elice.publicKey,
           timeStamp: +new Date(),
-          verify: firstKey.verify,
         },
       },
       [blocks[blocks.length - 2].timeStamp, blocks[blocks.length - 1].timeStamp]
     );
     it('이전 블럭이 빠르게 채굴되서 난이도가 +1 증가합니다.', () => {
-      expect(block.difficulty).toBe(1);
+      expect(block.difficulty).toBe(2);
     });
     it('논스 값은 1', () => {
       expect(block.nonce).toBe(1);

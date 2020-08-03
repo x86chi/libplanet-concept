@@ -1,15 +1,11 @@
-import { ec as EC, BNInput, SignatureInput } from 'elliptic';
-
-export const ec = new EC('secp256k1');
+import { KeyObject } from './utils';
 
 export interface Transaction {
-  signature: string;
+  signature: Buffer;
   timeStamp: number;
-  publicKey: string;
+  publicKey: KeyObject;
 }
 
 export interface TransactionPayload {
-  payload: Transaction[] | [];
+  payload: Transaction | null;
 }
-
-export type Verify = (msg: BNInput, signature: SignatureInput) => boolean;
