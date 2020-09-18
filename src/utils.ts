@@ -1,7 +1,11 @@
 import crypto from 'crypto';
 
+export type KeyObject = crypto.KeyObject;
+
+const Algorithm = 'SHA256';
+
 export function sha256(data: Buffer) {
-  return crypto.createHash('sha256').update(data).digest();
+  return crypto.createHash(Algorithm).update(data).digest();
 }
 export function byteToBit(bytes: IterableIterator<number>) {
   let result = '';
@@ -13,4 +17,22 @@ export function byteToBit(bytes: IterableIterator<number>) {
     result += bits;
   }
   return result;
+}
+
+export function createSign(privateKey: KeyObject, payload: Buffer) {
+  const sign = crypto.createSign(Algorithm);
+  sign.update(payload);
+  sign.end();
+  return sign.sign(privateKey);
+}
+
+export function verifySign(
+  signature: Buffer,
+  payload: Buffer,
+  publicKey: KeyObject
+) {
+  const verify = crypto.createVerify(Algorithm);
+  verify.update(payload);
+  verify.end();
+  return verify.verify(publicKey, signature);
 }
