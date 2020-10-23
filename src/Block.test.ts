@@ -42,9 +42,6 @@ describe('블록 연결하기', () => {
     it('이전 블럭이 빠르게 채굴되서 난이도가 +1 증가합니다.', () => {
       expect(block.difficulty).toBe(1);
     });
-    it('논스 값은 1', () => {
-      expect(block.nonce).toBe(1);
-    });
     blocks.push(block);
   });
   describe('블럭에 서명하기', () => {
@@ -64,9 +61,6 @@ describe('블록 연결하기', () => {
     );
     it('이전 블럭이 빠르게 채굴되서 난이도가 +1 증가합니다.', () => {
       expect(block.difficulty).toBe(2);
-    });
-    it('논스 값은 1', () => {
-      expect(block.nonce).toBe(1);
     });
     blocks.push(block);
   });
